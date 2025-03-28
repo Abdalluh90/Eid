@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عيد فطر سعيد</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body { 
+            text-align: center; 
+            font-family: 'Cairo', sans-serif; 
+            background: #1b1b1b; 
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container { 
+            background: #2c2c2c; 
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 22px;
+            color: #f8c32d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        h1 i {
+            color: #f8c32d;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        input { 
+            padding: 12px; 
+            margin: 8px;
+            font-size: 16px;
+            border-radius: 5px;
+            text-align: center;
+            width: 100%;
+            border: 2px solid #f8c32d;
+            background: #3c3c3c;
+            color: white;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #ffdd57;
+            box-shadow: 0 0 10px rgba(255, 221, 87, 0.5);
+            outline: none;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffdd57;
+            padding: 15px;
+            background: #3c3c3c;
+            border-radius: 10px;
+            display: none;
+            text-align: right;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #444;
+            padding: 12px;
+            margin: 6px 0;
+            border-radius: 8px;
+            font-size: 16px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-in forwards;
+        }
+
+        li::before {
+            content: "🌙 ";
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ✅ تحسين التجاوب مع الأجهزة المختلفة */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                max-width: 350px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            input {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            li {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+                max-width: 300px;
+            }
+
+            h1 {
+                font-size: 18px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+
+            input {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            li {
+                font-size: 13px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-moon"></i> عيد فطر سعيد! <i class="fas fa-star"></i></h1>
+        <p>🎊 أدخل اسمك وتاريخ ميلادك لتظهر لك التهنئة فورًا! 🎊</p>
+        <input type="text" id="name" placeholder="اسمك" oninput="updateGreeting()"><br>
+        <input type="date" id="birthdate" oninput="updateGreeting()"><br>
+        <div id="result">
+            <ul id="messages"></ul>
+        </div>
+    </div>
+
+    <script>
+        function updateGreeting() {
+            let name = document.getElementById("name").value.trim();
+            let birthdateInput = document.getElementById("birthdate").value;
+            let resultDiv = document.getElementById("result");
+            let messageList = document.getElementById("messages");
+
+            if (name === "" || birthdateInput === "") {
+                resultDiv.style.display = "none"; 
+                return;
+            }
+
+            let birthdate = new Date(birthdateInput);
+            let today = new Date();
+            let years = today.getFullYear() - birthdate.getFullYear();
+
+            if (today.getMonth() < birthdate.getMonth() || 
+                (today.getMonth() === birthdate.getMonth() && today.getDate() < birthdate.getDate())) {
+                years--;
+            }
+
+            let messages = [
+                `يا ${name}، لقد مر عليك ${years} عيد ميلاد! 🎂`,
+                "🌙 عيدك مبارك وسعيد! كل عام وأنت بألف خير! ✨",
+                "🤲 تقبل الله منا ومنكم صالح الأعمال!",
+                "😊 أسأل الله لك فرحة تدوم وسعادة تملأ قلبك!",
+                "🎉 نتمنى لك عيدًا مليئًا بالفرح والسرور!",
+                "💫 استمتع بوقتك وأمضِ لحظات جميلة مع أحبائك!"
+            ];
+
+            messageList.innerHTML = "";
+            resultDiv.style.display = "block";
+
+            let delay = 0;
+            messages.forEach(msg => {
+                setTimeout(() => {
+                    let li = document.createElement("li");
+                    li.textContent = msg;
+                    messageList.appendChild(li);
+                }, delay);
+                delay += 1000; 
+            });
+        }
+    </script>
+</body>
+</html>
